@@ -1,0 +1,239 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ArkaShine — cinematic soil palette
+   forest · dark soil teal · warm ivory · botanical green · chocolate soil · muted olive */
+@theme inline {
+  --font-display: var(--font-manrope);
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* colours are NOT inlined, so a wrapper (see .home-light) can re-theme a page */
+@theme {
+  --color-forest: #0e2a21;
+  --color-forest-deep: #071712;
+  --color-soilteal: #0d2b2b;
+  --color-ivory: #f2ede1;
+  --color-ivory-2: #e8e1d1;
+  --color-ivory-dim: #b9b4a5;
+  --color-botanical: #8cbf5f;
+  --color-botanical-dark: #4f7d2e;
+  --color-chocolate: #3a2618;
+  --color-olive: #6f7748;
+  --color-ink: #13201b;
+
+  /* legacy tokens still used by older components */
+  --color-teal-deep: #004752;
+  --color-teal-dark: #042729;
+  --color-green-fresh: #87c45e;
+  --color-green-soft: #eaf4e2;
+  --color-warm-white: #f7f8f4;
+  --color-neutral-gray: #3e4344;
+  --color-warm-bg: #f7f8f4;
+  --color-warm-surface: #eaf4e2;
+  --color-warm-card: #ffffff;
+  --color-warm-text: #042729;
+  --color-warm-muted: #3e4344;
+  --color-warm-forest: #004752;
+  --color-warm-earth: #87c45e;
+  --color-warm-sand: #d5e5ce;
+}
+
+:root {
+  --background: #071712;
+  --foreground: #f2ede1;
+}
+
+::selection {
+  background-color: #8cbf5f;
+  color: #071712;
+}
+
+@layer base {
+  html {
+    background-color: #071712;
+    color: #f2ede1;
+    scroll-padding-top: 5rem;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  body {
+    background-color: #071712;
+    color: #f2ede1;
+    overflow-x: hidden;
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid #8cbf5f;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+.container-site {
+  width: 100%;
+  /* 1320px on normal screens; grows on wide screens so images don't look shrunk */
+  max-width: max(1320px, min(88vw, 1760px));
+  margin-inline: auto;
+  padding-inline: max(1rem, env(safe-area-inset-left));
+}
+@media (min-width: 640px) {
+  .container-site { padding-inline: 2rem; }
+}
+@media (min-width: 1024px) {
+  .container-site { padding-inline: 3rem; }
+}
+
+/* small mono label with a botanical dot */
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #8cbf5f;
+  box-shadow: 0 0 0 4px rgba(140, 191, 95, 0.14);
+}
+
+/* editorial display headline */
+.display {
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+/* hairline */
+.hairline { height: 1px; background: currentColor; opacity: 0.14; }
+
+/* ribbon marquee */
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.marquee-track { animation: marquee-x var(--marquee-speed, 48s) linear infinite; }
+.marquee-track.reverse { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+@keyframes scroll-cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.scroll-cue-line { animation: scroll-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
+/* legacy button classes (older components) */
+.btn-primary { display: inline-flex; align-items: center; gap: .5rem; background: #234338; color: #faf7f2; font-weight: 600; font-size: .875rem; padding: .75rem 1.5rem; border-radius: 9999px; }
+.btn-secondary { display: inline-flex; align-items: center; gap: .5rem; border: 1px solid #d5e5ce; color: #042729; font-weight: 600; font-size: .875rem; padding: .75rem 1.5rem; border-radius: 9999px; }
+
+@keyframes sweep {
+  0%, 55% { transform: translateX(0) rotate(12deg); }
+  100% { transform: translateX(520%) rotate(12deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="animation:sweep"] { animation: none !important; }
+}
+
+/* hero nutrient badges: gentle bob after they pop */
+@keyframes nutrient-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.nutrient-float { animation: nutrient-float 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .nutrient-float { animation: none; }
+}
+
+/* field photo wall: endless column drift (content is duplicated, so -50% loops seamlessly) */
+@keyframes wall-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@keyframes wall-down {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Home page in the light "growers" palette.                            */
+/* The dark-designed sections flip: dark backgrounds → soft green-white, */
+/* light text → deep emerald, botanical accents → emerald.              */
+/* Sections that must keep their own look get .home-keep.               */
+/* ------------------------------------------------------------------ */
+.home-light {
+  --color-forest-deep: #ffffff;
+  --color-forest: #eaf5dc;
+  --color-soilteal: #e7f4f3;
+  --color-ivory: #162a54;
+  --color-ivory-2: #23407a;
+  --color-ivory-dim: #56627a;
+  --color-botanical: #1e7a33;
+  --color-botanical-dark: #17642a;
+  --color-white: #162a54;
+  --color-black: #dfe9d8;
+  color: #162a54;
+}
+main.home-light { background-color: #ffffff; }
+.home-light .eyebrow::before {
+  background: #059669;
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.14);
+}
+.home-keep {
+  --color-forest-deep: #071712;
+  --color-forest: #0e2a21;
+  --color-soilteal: #0d2b2b;
+  --color-ivory: #f2ede1;
+  --color-ivory-2: #e8e1d1;
+  --color-ivory-dim: #b9b4a5;
+  --color-botanical: #8cbf5f;
+  --color-botanical-dark: #4f7d2e;
+  --color-white: #fff;
+  --color-black: #000;
+}
+
+/* Home page: every dark section uses the "Four steps" teal instead of near-black */
+.home-teal {
+  --color-forest-deep: #12352f;
+  --color-forest: #164039;
+  --color-soilteal: #12352f;
+}
+@keyframes kpi-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Home page palette: white · pistachio · cream · aqua, navy text, leaf-green accents */
+.home-light #soillenz { background-color: #ffffff; }
+.home-light #ph-ec { background-color: #eaf5dc; }
+.home-light #app { background-color: #e7f4f3; }
+.home-light #advisory { background-color: #fbf7ee; }
+.home-light #partners { background-color: #ffffff; }
+.home-light #patents { background-color: #e7f4f3; }
+.home-light #blog { background-color: #fbf7ee; }
+.home-light #faq { background-color: #ffffff; }
